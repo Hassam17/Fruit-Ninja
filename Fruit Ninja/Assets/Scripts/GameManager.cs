@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner spawner;
     [SerializeField] private Text scoreText;
     [SerializeField] private Image fadeImage;
+   
 
     public int score { get; private set; } = 0;
 
