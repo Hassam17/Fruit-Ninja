@@ -4,10 +4,12 @@ public class Fruit : MonoBehaviour
 {
     public GameObject whole;
     public GameObject sliced;
+    public AudioClip sliceSound; // Add this line for the slice sound
 
     private Rigidbody fruitRigidbody;
     private Collider fruitCollider;
     private ParticleSystem juiceEffect;
+    private AudioSource audioSource; // Add this line for the audio source
 
     public int points = 1;
 
@@ -16,6 +18,16 @@ public class Fruit : MonoBehaviour
         fruitRigidbody = GetComponent<Rigidbody>();
         fruitCollider = GetComponent<Collider>();
         juiceEffect = GetComponentInChildren<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            // Add an AudioSource component if not already attached
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Set the volume to 0.2
+        audioSource.volume = 0.2f;
     }
 
     private void Slice(Vector3 direction, Vector3 position, float force)
@@ -29,6 +41,9 @@ public class Fruit : MonoBehaviour
         // Enable the sliced fruit
         sliced.SetActive(true);
         juiceEffect.Play();
+
+        // Play the slice sound
+        PlaySliceSound();
 
         // Rotate based on the slice angle
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -53,4 +68,11 @@ public class Fruit : MonoBehaviour
         }
     }
 
+    private void PlaySliceSound()
+    {
+        if (sliceSound != null)
+        {
+            audioSource.PlayOneShot(sliceSound);
+        }
+    }
 }
