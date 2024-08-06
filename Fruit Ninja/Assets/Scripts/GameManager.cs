@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Add this to use SceneManager
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
@@ -11,22 +12,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner spawner;
     [SerializeField] private Text scoreText;
     [SerializeField] private Image fadeImage;
-   
 
     public int score { get; private set; } = 0;
 
     private void Awake()
     {
-        if (Instance != null) {
+        if (Instance != null)
+        {
             DestroyImmediate(gameObject);
-        } else {
+        }
+        else
+        {
             Instance = this;
         }
     }
 
     private void OnDestroy()
     {
-        if (Instance == this) {
+        if (Instance == this)
+        {
             Instance = null;
         }
     }
@@ -53,13 +57,15 @@ public class GameManager : MonoBehaviour
     {
         Fruit[] fruits = FindObjectsOfType<Fruit>();
 
-        foreach (Fruit fruit in fruits) {
+        foreach (Fruit fruit in fruits)
+        {
             Destroy(fruit.gameObject);
         }
 
         Bomb[] bombs = FindObjectsOfType<Bomb>();
 
-        foreach (Bomb bomb in bombs) {
+        foreach (Bomb bomb in bombs)
+        {
             Destroy(bomb.gameObject);
         }
     }
@@ -105,7 +111,8 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
 
-        NewGame();
+        // Uncomment this line if you want to reset the game instead of loading the main menu
+        // NewGame();
 
         elapsed = 0f;
 
@@ -119,6 +126,8 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
-    }
 
+        // Load the main menu scene
+        SceneManager.LoadScene(0); // Replace "MainMenu" with your actual main menu scene name
+    }
 }
